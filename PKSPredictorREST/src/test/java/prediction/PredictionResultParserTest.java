@@ -14,6 +14,7 @@ import org.restlet.ext.jackson.JacksonRepresentation;
 public class PredictionResultParserTest {
     @Test
     public void testGetPredictionContainer() throws Exception {
+        // TODO change test to use file in package.
         String path = "/Users/pmoreno/Documents/Projects/PKS/pksPredictorRuns/ouput/posterEricCosmid_CladApril2013/";
         String seqID = "Cosmidsequence";
         PredictionResultParser parser = new PredictionResultParser(path,seqID);

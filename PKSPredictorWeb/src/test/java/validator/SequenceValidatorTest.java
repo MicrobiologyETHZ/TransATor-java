@@ -16,6 +16,7 @@ public class SequenceValidatorTest {
     public void testGetSequenceIdentifiers() throws Exception {
         SequenceValidator validator =
                 new SequenceValidator(
+                        // TODO change to internal resource file.
                         new FileInputStream(
                 "/Users/pmoreno/Documents/Projects/PKS/dataFromJoern/secondSetOfSeqsToRunOnApril2013/joinedSeqs.faa"));
 

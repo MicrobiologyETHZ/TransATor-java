@@ -24,19 +24,21 @@ import java.io.FileWriter;
 public class PKSAssemblerTest {
     @Test
     public void testAddMonomer() throws Exception {
-        FeatureFileLineParser parser = new FeatureFileLineParser(getCladeLine(100,1E-20,100.0f,1,1,"Clade_6",""));
-        SequenceFeature clade6 = SequenceFeatureFactory.makeSequenceFeature(parser);
+        FeatureFileLineParser parser = new FeatureFileLineParser(getCladeLine(100,1E-20,100.0f,1,1,"Clade_7",""));
+        SequenceFeature clade7 = SequenceFeatureFactory.makeSequenceFeature(parser);
         FeatureFileLineParser parser2 = new FeatureFileLineParser(getCladeLine(200,1E-20,100.0f,1,1,"Clade_11",""));
         SequenceFeature clade11 = SequenceFeatureFactory.makeSequenceFeature(parser2);
-        FeatureFileLineParser parser3 = new FeatureFileLineParser(getCladeLine(300,1E-20,100.0f,1,1,"Clade_13",""));
-        SequenceFeature clade13 = SequenceFeatureFactory.makeSequenceFeature(parser3);
-        SequenceFeature clade6_2 = SequenceFeatureFactory.makeSequenceFeature(parser);
+        //FeatureFileLineParser parser3 = new FeatureFileLineParser(getCladeLine(300,1E-20,100.0f,1,1,"Clade_13",""));
+        //SequenceFeature clade13 = SequenceFeatureFactory.makeSequenceFeature(parser3);
+        FeatureFileLineParser parser3 = new FeatureFileLineParser(getCladeLine(300,1E-20,100.0f,1,1,"Clade_14",""));
+        SequenceFeature clade14 = SequenceFeatureFactory.makeSequenceFeature(parser3);
+        SequenceFeature clade7_2 = SequenceFeatureFactory.makeSequenceFeature(parser);
 
         PKSAssembler assembler = new PKSAssembler();
-        assembler.addMonomer(clade6);
+        assembler.addMonomer(clade7);
         assembler.addMonomer(clade11);
-        assembler.addMonomer(clade13);
-        assembler.addMonomer(clade6_2);
+        assembler.addMonomer(clade14);
+        assembler.addMonomer(clade7_2);
 
         SequenceFeature finalizer = new DomainSeqFeature(0,0,"finalExtension","0");
         assembler.addMonomer(finalizer);
@@ -44,12 +46,12 @@ public class PKSAssemblerTest {
 
         PKStructure struc = assembler.getStructure();
 
+        PKStructureImageGenerator imageGenerator = new PKStructureImageGenerator();
+        BufferedImage image = imageGenerator.generateStructureImage(struc, new Dimension(900, 900));
+
         MDLV2000Writer writer = new MDLV2000Writer(new FileWriter("/tmp/pks.mol"));
         writer.write(struc.getMolecule());
         writer.close();
-
-        PKStructureImageGenerator imageGenerator = new PKStructureImageGenerator();
-        BufferedImage image = imageGenerator.generateStructureImage(struc, new Dimension(900, 900));
 
         File outputFile = new File("/tmp/pks.png");
         ImageIO.write(image, "png", outputFile);
@@ -62,6 +64,6 @@ public class PKSAssemblerTest {
 
     private String getCladeLine(Integer start, Double evalue, Float score, Integer ranking,
                                 Integer stackNumber, String name, String label) {
-        return Joiner.on("\t").join(start,start+100,evalue,score,ranking,stackNumber,"domain","KS",name,label);
+        return Joiner.on("\t").join(start,start+100,evalue,score,ranking,stackNumber,"domain","KS",name,label,"yes");
     }
 }

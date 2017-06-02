@@ -118,6 +118,7 @@ public class PredictionResultParser {
             if(isClade) {
                 Integer rankingInt = Integer.parseInt(ranking);
                 feature.setY(initialFeatureY + rankingInt * featureHeight);
+                // TODO change color based on verification value.
                 feature.setStroke(getHexaColorFromRank(rankingInt));
                 feature.setFill(getHexaColorFromRank(rankingInt));
             } else {

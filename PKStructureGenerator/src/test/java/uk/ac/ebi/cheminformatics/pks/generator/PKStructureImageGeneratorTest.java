@@ -32,7 +32,7 @@ public class PKStructureImageGeneratorTest {
 
     @Test
     public void testGenerateStructureImageOnnamide() throws Exception {
-        StructureGenerator generator = new StructureGenerator(FeatureParserTest.class.getResourceAsStream("onnamid.features"));
+        StructureGenerator generator = new StructureGenerator(FeatureParserTest.class.getResourceAsStream("onnamide.features"));
         generator.run();
         PKStructure struct = generator.getStructure();
 
