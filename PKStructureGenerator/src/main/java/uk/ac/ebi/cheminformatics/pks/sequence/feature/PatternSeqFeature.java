@@ -2,13 +2,6 @@ package uk.ac.ebi.cheminformatics.pks.sequence.feature;
 
 import uk.ac.ebi.cheminformatics.pks.monomer.PKMonomer;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 4/7/13
- * Time: 14:26
- * To change this template use File | Settings | File Templates.
- */
 public interface PatternSeqFeature extends SequenceFeature {
 
     /**

@@ -8,16 +8,9 @@ import prediction.PKSPredictionDataResource;
 import prediction.PKSStructureImageDataRes;
 import prediction.PKSStructureSmilesDataRes;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 1/7/13
- * Time: 12:25
- * To change this template use File | Settings | File Templates.
- */
 public class PKSRouter extends Application {
 
-    private static final Logger LOGGER = Logger.getLogger( PKSRouter.class );
+    private static final Logger LOGGER = Logger.getLogger(PKSRouter.class);
 
     /**
      * Creates a root Restlet that will receive all incoming calls.

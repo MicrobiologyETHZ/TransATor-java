@@ -23,8 +23,6 @@ public class AminoAcidStructLoader extends AbstractFileStructLoader implements S
     public AminoAcidStructLoader(String aminoAcidName) {
         this.cladeName = aminoAcidName;
         this.errorLabel = "Could not read molecule for amino acid: ";
-        StringBuilder builder = new StringBuilder(prefs.get(RunnerPreferenceField.AminoAcidsMolsPath.toString(), ""));
-        builder.append(aminoAcidName).append(".mol");
-        this.path = builder.toString();
+        this.path = prefs.get(RunnerPreferenceField.AminoAcidsMolsPath.toString(), "") + aminoAcidName + ".mol";
     }
 }

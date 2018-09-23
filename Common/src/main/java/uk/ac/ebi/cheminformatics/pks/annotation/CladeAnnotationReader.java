@@ -12,23 +12,24 @@ class CladeAnnotationReader {
 
     private CladeAnnotation annotation;
 
-    public CladeAnnotationReader(String pathToAnnotationFile) throws IOException{
+    public CladeAnnotationReader(String pathToAnnotationFile) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(pathToAnnotationFile));
         String line;
-        // header
-        line=reader.readLine();
+        // ignore header
+        reader.readLine();
         annotation = new CladeAnnotation();
-        while ((line=reader.readLine())!=null) {
+        while ((line = reader.readLine()) != null) {
             String[] tokens = line.split("\t");
             String clade = tokens[0];
-            annotation.setCladeDesc(clade,tokens[1]);
-            annotation.setCladeDescTool(clade,tokens[2]);
-            annotation.setCladeMolFileName(clade,tokens[3]);
+            annotation.setCladeDesc(clade, tokens[1]);
+            annotation.setCladeDescTool(clade, tokens[2]);
+            annotation.setCladeMolFileName(clade, tokens[3]);
             annotation.setCladePostProcessors(clade, Arrays.asList(tokens[4].split(";")));
             annotation.setCladeVerificationDomains(clade, Arrays.asList(tokens[5].split(";")));
             annotation.setCladeTerminationRule(clade, Arrays.asList(tokens[6].split(";")));
-            annotation.setCladeNonElongating(clade,tokens[7].equalsIgnoreCase("yes"));
+            annotation.setCladeNonElongating(clade, tokens[7].equalsIgnoreCase("yes"));
             annotation.setCladeVerificationMandatory(clade, tokens[8].equalsIgnoreCase("yes"));
+            annotation.setCladeTerminationBoundary(clade, tokens[9].equalsIgnoreCase("yes"));
         }
         reader.close();
     }

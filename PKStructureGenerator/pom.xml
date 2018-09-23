@@ -12,7 +12,7 @@
     <artifactId>PKStructureGenerator</artifactId>
 
     <properties>
-        <cdk.version>2.0-SNAPSHOT</cdk.version>
+        <cdk.version>2.0</cdk.version>
     </properties>
 
     <dependencies>
@@ -23,22 +23,7 @@
         </dependency>
         <dependency>
             <groupId>org.openscience.cdk</groupId>
-            <artifactId>cdk-core</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openscience.cdk</groupId>
-            <artifactId>cdk-io</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openscience.cdk</groupId>
-            <artifactId>cdk-renderextra</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openscience.cdk</groupId>
-            <artifactId>cdk-silent</artifactId>
+            <artifactId>cdk-bundle</artifactId>
             <version>${cdk.version}</version>
         </dependency>
         <dependency>
@@ -49,7 +34,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>14.0</version>
+            <version>21.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

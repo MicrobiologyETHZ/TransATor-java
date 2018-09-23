@@ -9,47 +9,40 @@ import prediction.json.PredictionContainer;
 
 import java.io.File;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 1/7/13
- * Time: 12:29
- * To change this template use File | Settings | File Templates.
- */
+
 public class PKSPredictionDataResource extends ServerResource {
 
-    private long timeout = 10*60*1000; // 10 minutes
+    private long timeout = 10 * 60 * 1000; // 10 minutes
 
     @Get("json")
     public Representation represent() {
-        //String encryptedPath = (String)getRequestAttributes().get("encPath");
         String encryptedPath = getQuery().getValues("path");
         Encrypter encrypter = new Encrypter();
-        System.out.println("Encrypted : "+encryptedPath);
+        System.out.println("Encrypted : " + encryptedPath);
         String path = encrypter.decrypt(encryptedPath);
-        if(!path.endsWith(File.separator))
+        if (!path.endsWith(File.separator))
             path += File.separator;
-        //String seqID = (String)getRequestAttributes().get("seqID");
         String seqID = getQuery().getValues("seqId");
-        System.out.println("Started represent: "+encryptedPath);
+        System.out.println("Started represent: " + encryptedPath);
 
-        File finished = new File(path+File.separator+seqID+".finished");
+        File finished = new File(path + File.separator + seqID + ".finished");
         Long start = System.currentTimeMillis();
+        // TODO: busy waiting might be the source of occasional 100% CPU when something goes wrong in the python part of the program
         while (true) {
-            if(finished.exists())
+            if (finished.exists())
                 break;
-            else if(System.currentTimeMillis() - start > this.timeout) {
-                // null representation thrown.
+            else if (System.currentTimeMillis() - start > this.timeout) {
+                throw new RuntimeException("Timeout occurred");
             } else {
                 try {
                     Thread.sleep(3000); // sleep 3 seconds and try again.
                 } catch (InterruptedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
                 }
             }
         }
 
-        PredictionResultParser parser = new PredictionResultParser(path,seqID);
+        PredictionResultParser parser = new PredictionResultParser(path, seqID);
         // Now we read the result files and produce the objects to be transformed into JSON.
 
         PredictionContainer container = parser.getPredictionContainer();

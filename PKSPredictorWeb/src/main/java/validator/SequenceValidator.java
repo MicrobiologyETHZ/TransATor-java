@@ -13,13 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 28/6/13
- * Time: 14:24
- * To change this template use File | Settings | File Templates.
- */
 public class SequenceValidator {
     private List<String> sequenceIdentifiers;
 
@@ -34,38 +27,38 @@ public class SequenceValidator {
      * @param fastaFileInputStream
      */
     public SequenceValidator(InputStream fastaFileInputStream) {
-        this.sequenceIdentifiers = new ArrayList<String>();
+        this.sequenceIdentifiers = new ArrayList<>();
         processInput(fastaFileInputStream);
     }
 
     public SequenceValidator(InputStream fastaFileInputStream, String outputPath) {
-        this.sequenceIdentifiers = new ArrayList<String>();
+        this.sequenceIdentifiers = new ArrayList<>();
         this.outputPath = outputPath;
         processInput(fastaFileInputStream);
     }
 
     public SequenceValidator(String sequenceLines, String outputPath) {
-        this.sequenceIdentifiers = new ArrayList<String>();
+        this.sequenceIdentifiers = new ArrayList<>();
         this.outputPath = outputPath;
         processInput(new ByteArrayInputStream(sequenceLines.getBytes(Charset.forName("UTF-8"))));
     }
 
     private void processInput(InputStream input) {
         try {
-            Map<String,ProteinSequence> data = FastaReaderHelper.readFastaProteinSequence(input);
-            if(outputPath==null)
+            Map<String, ProteinSequence> data = FastaReaderHelper.readFastaProteinSequence(input);
+            if (outputPath == null)
                 outputPath = Files.createTempDir().getCanonicalPath();
             fastaPath = outputPath + File.separator + "query.faa";
-            GenericFastaHeaderFormat<ProteinSequence,AminoAcidCompound> headerFormat
+            GenericFastaHeaderFormat<ProteinSequence, AminoAcidCompound> headerFormat
                     = new GenericFastaHeaderFormat<>();
-            for(String protSeqIdent : data.keySet()) {
+            for (String protSeqIdent : data.keySet()) {
                 String header = headerFormat.getHeader(data.get(protSeqIdent));
                 sequenceIdentifiers.add(
-                        header.indexOf(' ')>=0 ?
-                                header.substring(0,header.indexOf(' ')) :
+                        header.indexOf(' ') >= 0 ?
+                                header.substring(0, header.indexOf(' ')) :
                                 header);
             }
-            FastaWriterHelper.writeProteinSequence(new File(fastaPath),data.values());
+            FastaWriterHelper.writeProteinSequence(new File(fastaPath), data.values());
             writeIdentifiersFile(sequenceIdentifiers);
         } catch (Exception e) {
             this.e = e;
@@ -77,21 +70,20 @@ public class SequenceValidator {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(pathIdents));
             for (String ident : sequenceIdentifiers) {
-                writer.write(ident+"\n");
+                writer.write(ident + "\n");
             }
             writer.close();
         } catch (IOException e1) {
-            throw new RuntimeException("problems when writing identifiers",e1);
+            throw new RuntimeException("problems when writing identifiers", e1);
         }
     }
 
     private void cleanIdentifiers(List<String> sequenceIdentifiers) {
         for (String ident : sequenceIdentifiers) {
-            String newIdent = ident.replaceAll("\\s.*$","");
-            sequenceIdentifiers.set(sequenceIdentifiers.indexOf(ident),newIdent);
+            String newIdent = ident.replaceAll("\\s.*$", "");
+            sequenceIdentifiers.set(sequenceIdentifiers.indexOf(ident), newIdent);
         }
     }
-
 
 
     public String getFastaPath() {
@@ -107,7 +99,7 @@ public class SequenceValidator {
     }
 
     public boolean fail() {
-        return this.e!=null;
+        return this.e != null;
     }
 
     public String getError() {

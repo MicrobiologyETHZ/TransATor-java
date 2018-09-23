@@ -6,14 +6,7 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 3/7/13
- * Time: 23:05
- * To change this template use File | Settings | File Templates.
- */
-public class FeatureFileLineParser {
+public class FeatureFileLine {
 
     /**
      * The start of the feature in amino acid coordinates (referenced to the sequence).
@@ -59,6 +52,10 @@ public class FeatureFileLineParser {
         return type;
     }
 
+    public String getVerificationPass() {
+        return verification_pass;
+    }
+
     /**
      * Obtains the subtype qualifier, which is used in particular by the
      * KS clade domain annotator to signal that this sequence feature is a
@@ -82,7 +79,8 @@ public class FeatureFileLineParser {
     private final Integer stop;
     private final String evalue;
     private final String score;
-    private final String ranking;
+    // TODO: these should not be read in here anymore
+    private String ranking;
     private final String stackNumber;
     private final String type;
     private final String subtype;
@@ -97,7 +95,7 @@ public class FeatureFileLineParser {
      *
      * @param line from .feature file.
      */
-    public FeatureFileLineParser(String line) {
+    public FeatureFileLine(String line) {
         Iterator<String> tokens = Splitter.on("\t").split(line).iterator();
         start = Integer.parseInt(tokens.next());
         stop = Integer.parseInt(tokens.next());
@@ -116,23 +114,13 @@ public class FeatureFileLineParser {
         // if name ends in character instead of a number, remove everything after the number.
         // TODO we might not need this anymore. Check.
         Matcher cladeNameMatcher = cladeNamePat.matcher(name);
-        if(cladeNameMatcher.find()) {
+        if (cladeNameMatcher.find()) {
             return cladeNameMatcher.group(1);
         }
         return name;
     }
 
-
-    public Boolean getVerificationPass() {
-        if(verification_pass.equals("True"))
-            return Boolean.TRUE;
-        else if(verification_pass.equals("False"))
-            return Boolean.FALSE;
-        else
-            return null;
-    }
-
-    public boolean isaKSClade() {
-        return !ranking.equals("N/A") && !stackNumber.equals("N/A");
+    public void setRanking(long ranking) {
+        this.ranking = Long.toString(ranking);
     }
 }

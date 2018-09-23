@@ -93,39 +93,40 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-
-.seqResult { width:700px;
-    height:300px;
-    vertical-align:middle;
+.seqResult {
+    width: 700px;
+    height: 300px;
+    vertical-align: middle;
     /*float:left;*/
-    margin-left:auto;
-    margin-right:auto;
-    /*width:70%;*/    }
+    margin-left: auto;
+    margin-right: auto;
+    /*width:70%;*/
+}
+
 /*.waitingImage {float:inherit; vertical-align:middle; }*/
 
 #accordionSequences {
-    width:779px;
-    margin-left:auto;
-    margin-right:auto;
+    width: 779px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .textCentering {
-    width:779px;
-    margin-left:auto;
-    margin-right:auto;
+    width: 779px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
 }
 
 .newHeaderForAccordion {
-    padding-left:30px;
+    padding-left: 30px;
 }
 
 .resultingMol {
-    width:779px;
+    width: 779px;
     display: block;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .submitButton {
@@ -136,19 +137,9 @@ textarea {
     display: block;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.ks0 {
+    font-weight: bold;
+}
 
 /* ==========================================================================
    Helper classes
@@ -262,9 +253,9 @@ textarea {
 }
 
 @media print,
-       (-o-min-device-pixel-ratio: 5/4),
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 120dpi) {
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {
     /* Style adjustments for high resolution devices */
 }
 
@@ -297,7 +288,6 @@ textarea {
     /*
      * Don't show links for images, or javascript/internal links
      */
-
     .ir a:after,
     a[href^="javascript:"]:after,
     a[href^="#"]:after {

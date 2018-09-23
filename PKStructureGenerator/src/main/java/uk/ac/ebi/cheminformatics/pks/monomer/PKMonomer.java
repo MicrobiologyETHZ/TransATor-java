@@ -6,6 +6,7 @@ import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IPseudoAtom;
+import org.openscience.cdk.io.DefaultChemObjectReader;
 import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
@@ -18,13 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 4/7/13
- * Time: 11:09
- * To change this template use File | Settings | File Templates.
- */
 public class PKMonomer {
 
     private static final Logger LOGGER = Logger.getLogger(PKMonomer.class);
@@ -34,29 +28,36 @@ public class PKMonomer {
     private IAtom posConnectionAtom;
 
     private String cladeName;
+    private String molFilename;
+    private boolean isTerminationBoundary = false;
+    private boolean isNonElongating = false;
+
+    private IAtomContainer monomerMol;
 
     public boolean isNonElongating() {
         return isNonElongating;
     }
 
-    private boolean isNonElongating =false;
 
-    private IAtomContainer monomerMol;
+    public boolean isTerminationBoundary() {
+        return isTerminationBoundary;
+    }
 
     /**
-     * @deprecated
      * @param name
+     * @deprecated
      */
     @Deprecated
+    // TODO: can we remove this function?
     public PKMonomer(String name) {
         cladeName = name;
         this.monomerMol = loadStructure(name);
         setConnectionPoints();
         Set<String> nonElongatingClades = //new HashSet<>(Arrays.asList("Clade_27"));
                 new HashSet<>(Arrays.asList("Clade_27", "Clade_8a", "Clade_8b",
-                        "Clade_8", "Clade_10", "Clade_28"));
-        if(nonElongatingClades.contains(name)) {
-            this.isNonElongating =true;
+                        "Clade_8", "Clade_10", "Clade_28", "Clade_30"));
+        if (nonElongatingClades.contains(name)) {
+            this.isNonElongating = true;
         }
     }
 
@@ -64,44 +65,53 @@ public class PKMonomer {
      * Initializes a monomer using the information stored on the CladeAnnotation object, based on the clade_id/Clade id.
      *
      * @param clade_id
-     * @param annot the CladeAnnotation object which holds the annotation data.
+     * @param annot    the CladeAnnotation object which holds the annotation data.
      */
     public PKMonomer(String clade_id, CladeAnnotation annot) {
         cladeName = clade_id;
-        this.monomerMol = loadExternalStructure(annot.getMolFileName(cladeName));
-        if(verifyMolIntegrity()) {
-            setConnectionPoints();
-            this.isNonElongating = annot.isNonElongating(cladeName);
+        // TODO Clade_32's monomer is determined at a later stage. We should use Optionals, but this is easier for now
+        if (clade_id.equals("Clade_32")) {
+            this.monomerMol = null;
+        } else {
+            String molFileName = annot.getMolFileName(cladeName);
+            this.monomerMol = loadExternalStructure(molFileName);
+            if (verifyMolIntegrity()) {
+                setConnectionPoints();
+            }
+            this.molFilename = molFileName;
         }
+        this.isNonElongating = annot.isNonElongating(cladeName);
+        this.isTerminationBoundary = annot.isTerminationBoundary(cladeName);
     }
 
     /**
-     * Checks that the loaded molecule has only one R1 and only one R2.
-     * @return true if only 1 R1 and 1 R2 pseudo atoms are present.
+     * Checks that the loaded molecule has at most one R1 and at most one R2.
+     *
+     * @return true if only 0 or 1 R1 and 0 or 1 R2 pseudo atoms are present.
      */
     private Boolean verifyMolIntegrity() {
         int r1Counts = 0, r2Counts = 0;
         String label;
-        for(IAtom atom : monomerMol.atoms()) {
+        for (IAtom atom : monomerMol.atoms()) {
             if (atom instanceof IPseudoAtom) {
                 label = ((IPseudoAtom) atom).getLabel();
                 if (label.equals("R1")) r1Counts++;
                 if (label.equals("R2")) r2Counts++;
             }
         }
-        return r1Counts == 1 && r2Counts == 1;
+        return (r1Counts == 0 || r1Counts == 1) && (r2Counts == 0 || r2Counts == 1);
     }
 
     @Deprecated
     private IAtomContainer loadStructure(String name) {
         try {
-            MDLV2000Reader reader =
-                    new MDLV2000Reader(PKMonomer.class.getResourceAsStream("/uk/ac/ebi/cheminformatics/structures/"+name+".mol"));
+            DefaultChemObjectReader reader =
+                    new MDLV2000Reader(PKMonomer.class.getResourceAsStream("/uk/ac/ebi/cheminformatics/structures/" + name + ".mol"));
             IAtomContainer mol = reader.read(SilentChemObjectBuilder.getInstance().newInstance(IAtomContainer.class));
             AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(mol);
             return mol;
         } catch (CDKException e) {
-            throw new RuntimeException("Could not read molecule for "+cladeName,e);
+            throw new RuntimeException("Could not read molecule for " + cladeName, e);
         } catch (NullPointerException e) {
             return SilentChemObjectBuilder.getInstance().newInstance(IAtomContainer.class);
         }
@@ -115,35 +125,35 @@ public class PKMonomer {
      */
     private IAtomContainer loadExternalStructure(String name) {
         try {
-            MDLV2000Reader reader =
+            DefaultChemObjectReader reader =
                     new MDLV2000Reader(new FileReader(name));
             IAtomContainer mol = reader.read(SilentChemObjectBuilder.getInstance().newInstance(IAtomContainer.class));
             AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(mol);
             return mol;
-        } catch (IOException|CDKException e) {
-            throw new RuntimeException("Could not read molecule for "+cladeName,e);
+        } catch (IOException | CDKException e) {
+            throw new RuntimeException("Could not read molecule for " + cladeName, e);
         } catch (NullPointerException e) {
             return SilentChemObjectBuilder.getInstance().newInstance(IAtomContainer.class);
         }
     }
 
     private void setConnectionPoints() {
-        for(IAtom atom : monomerMol.atoms()) {
-            if(atom instanceof IPseudoAtom) {
-                if(((IPseudoAtom) atom).getLabel().equals("R1")) {
-                    if(preConnectionAtom==null) {
+        for (IAtom atom : monomerMol.atoms()) {
+            if (atom instanceof IPseudoAtom) {
+                if (((IPseudoAtom) atom).getLabel().equals("R1")) {
+                    if (preConnectionAtom == null) {
                         preConnectionAtom =
                                 monomerMol.getConnectedAtomsCount(atom) > 0 ? monomerMol.getConnectedAtomsList(atom).get(0) : null;
-                        if(preConnectionAtom!=null)
-                            preConnectionBond = monomerMol.getBond(atom,preConnectionAtom);
+                        if (preConnectionAtom != null)
+                            preConnectionBond = monomerMol.getBond(atom, preConnectionAtom);
                     } else {
-                        throw new RuntimeException("Molecule for  "+cladeName+" has more than one R1 atom");
+                        throw new RuntimeException("Molecule for  " + cladeName + " has more than one R1 atom");
                     }
-                } else if(((IPseudoAtom) atom).getLabel().equals("R2")) {
-                    if(posConnectionAtom==null) {
+                } else if (((IPseudoAtom) atom).getLabel().equals("R2")) {
+                    if (posConnectionAtom == null) {
                         posConnectionAtom = monomerMol.getConnectedAtomsCount(atom) > 0 ? monomerMol.getConnectedAtomsList(atom).get(0) : null;
                     } else {
-                        throw new RuntimeException("Molecule for  "+cladeName+" has more than one R1 atom");
+                        throw new RuntimeException("Molecule for  " + cladeName + " has more than one R2 atom");
                     }
                 }
             }
@@ -152,6 +162,7 @@ public class PKMonomer {
 
     /**
      * Returns Atom connected to R2 originally.
+     *
      * @return
      */
     public IAtom getPosConnectionAtom() {
@@ -173,6 +184,10 @@ public class PKMonomer {
 
     public IBond getConnectionBond() {
         return preConnectionBond;
+    }
+
+    public String getMolFilename() {
+        return molFilename;
     }
 
     @Override
@@ -201,4 +216,5 @@ public class PKMonomer {
         result = 31 * result + (cladeName != null ? cladeName.hashCode() : 0);
         return result;
     }
+
 }

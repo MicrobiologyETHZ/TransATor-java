@@ -12,6 +12,6 @@ public interface StructureLoader {
      *
      * @return an {@link IAtomContainer} with the molecule.
      */
-    public IAtomContainer loadStructure() throws Exception;
+    IAtomContainer loadStructure() throws Exception;
 
 }

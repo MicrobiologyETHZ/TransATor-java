@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>uk.ac.ebi.cheminformatics</groupId>
-  <artifactId>PKSPredictor</artifactId>
-  <version>1.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>PKSPredictor</name>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>uk.ac.ebi.cheminformatics</groupId>
+    <artifactId>PKSPredictor</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>PKSPredictor</name>
 
-  <modules>
-      <module>PKSPredictorWeb</module>
-      <module>PKSPredictorRunner</module>
-      <module>PKSPredictorREST</module>
-      <module>Common</module>
-      <module>PKStructureGenerator</module>
-  </modules>
+    <modules>
+        <module>PKSPredictorWeb</module>
+        <module>PKSPredictorRunner</module>
+        <module>PKSPredictorREST</module>
+        <module>Common</module>
+        <module>PKStructureGenerator</module>
+    </modules>
 
     <build>
         <plugins>
@@ -22,8 +22,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -40,20 +40,20 @@
             <name>Public online Restlet repository</name>
             <url>http://maven.restlet.org</url>
         </repository>
-            <repository>
-                <id>maven-repo</id>
-                <url>http://repo1.maven.org/maven2</url>
-            </repository>
-            <repository>
-                <id>ebi-repo</id>
-                <name>EBI maven repository</name>
-                <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-            </repository>
-            <repository>
-                <id>ebi-repo-snapshots</id>
-                <name>EBI maven snapshots repository</name>
-                <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-            </repository>
+        <repository>
+            <id>maven-repo</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>ebi-repo</id>
+            <name>EBI maven repository</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+        </repository>
+        <repository>
+            <id>ebi-repo-snapshots</id>
+            <name>EBI maven snapshots repository</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+        </repository>
         <repository>
             <id>sonatype</id>
             <name>sonatype</name>

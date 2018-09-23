@@ -18,6 +18,8 @@ public class CladeAnnotation {
 
     private Map<String, String> clade2molFileName;
     private Map<String, Boolean> cladeIsNonElongating;
+    private Map<String, Boolean> cladeIsTerminationBoundary;
+
     private Map<String, String> clade2description;
     private Map<String, String> clade2descriptionForTool;
     private Map<String, List<String>> clade2PostProcessors;
@@ -28,6 +30,7 @@ public class CladeAnnotation {
     public CladeAnnotation() {
         clade2description = new HashMap<>();
         cladeIsNonElongating = new HashMap<>();
+        cladeIsTerminationBoundary = new HashMap<>();
         clade2molFileName = new HashMap<>();
         clade2descriptionForTool = new HashMap<>();
         clade2PostProcessors = new HashMap<>();
@@ -45,7 +48,6 @@ public class CladeAnnotation {
     }
 
     /**
-     *
      * @param cladeName
      * @return True if the clade with cladeName is an elongating
      */
@@ -53,12 +55,16 @@ public class CladeAnnotation {
         return cladeIsNonElongating.get(cladeName);
     }
 
+    public boolean isTerminationBoundary(String cladeName) {
+        return cladeIsTerminationBoundary.getOrDefault(cladeName, false);
+    }
+
     public void setCladeDesc(String clade, String description) {
-        this.clade2description.put(clade,description);
+        this.clade2description.put(clade, description);
     }
 
     public void setCladeDescTool(String clade, String descriptionForTool) {
-        this.clade2descriptionForTool.put(clade,descriptionForTool);
+        this.clade2descriptionForTool.put(clade, descriptionForTool);
     }
 
     public void setCladeMolFileName(String clade, String molFileName) {
@@ -78,6 +84,10 @@ public class CladeAnnotation {
         this.clade2domainsTerminationRule.put(clade, domainsForRule);
     }
 
+    public void setCladeTerminationBoundary(String clade, Boolean isTerminationBoundary) {
+        this.cladeIsTerminationBoundary.put(clade, isTerminationBoundary);
+    }
+
     public void setCladeNonElongating(String clade, Boolean nonElongating) {
         this.cladeIsNonElongating.put(clade, nonElongating);
     }
@@ -93,4 +103,5 @@ public class CladeAnnotation {
     public boolean isVerificationMandatory(String clade) {
         return this.cladeIsVerificationMandatory.get(clade);
     }
+
 }

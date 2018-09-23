@@ -9,37 +9,30 @@ import uk.ac.ebi.cheminformatics.pks.generator.PKStructure;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pmoreno
- * Date: 11/6/15
- * Time: 23:31
- * To change this template use File | Settings | File Templates.
- */
 public class StereoElementsVerifier implements Verifier {
 
     private List<IStereoElement> stereoElementsToDel;
     private PKStructure structure;
 
     @Override
-    public boolean verify(PKStructure struc) {
-        IAtomContainer mol = struc.getMolecule();
+    public boolean verify(PKStructure structure) {
+        IAtomContainer mol = structure.getMolecule();
         this.stereoElementsToDel = new LinkedList<>();
-        this.structure = struc;
-        for(IStereoElement element : mol.stereoElements()) {
+        this.structure = structure;
+        for (IStereoElement element : mol.stereoElements()) {
             if (element instanceof IDoubleBondStereochemistry) {
-                for(IBond bondInStereo : ((IDoubleBondStereochemistry)element).getBonds() ) {
-                    if(!struc.getMolecule().contains(bondInStereo)) {
+                for (IBond bondInStereo : ((IDoubleBondStereochemistry) element).getBonds()) {
+                    if (!structure.getMolecule().contains(bondInStereo)) {
                         stereoElementsToDel.add(element);
                     }
                 }
             }
-        }  //To change body of implemented methods use File | Settings | File Templates.
-        return stereoElementsToDel.size()>0;
+        }
+        return stereoElementsToDel.size() > 0;
     }
 
     @Override
     public String descriptionMessage() {
-        return "Unsynced stereo elements found";  //To change body of implemented methods use File | Settings | File Templates.
+        return "Unsynced stereo elements found";
     }
 }
