@@ -72,7 +72,7 @@
 
     <ul>
         <li><a href="#accordionSequences">Viewer</a></li>
-        <li><a href="#rawResult">Raw</a></li>
+        <li><a href="#rawResult">KS Annotations</a></li>
     </ul>
 
     <div id="accordionSequences">
@@ -127,8 +127,50 @@
                         var myPainter = new Biojs.FeatureViewer({
                             target: divObj.attr("id"),
                             json: json,
-                            showPrintButton: false
+                            showPrintButton: false,
+                            selectFeatureOnMouseClick: false,
+                            dragSites: false,
                         });
+
+                        $j("#dialog").dialog({
+                            autoOpen: false,
+                            height: 400,
+                            width: 600,
+                            modal: true,
+                            buttons: {
+                                "close": function(event) {
+                                    $j("#dialog").dialog("close");
+                                },
+                                "copy": function(event) {
+                                    // copy to clipboard. in-place, because creating a function anywhere silently breaks everything...
+                                    var aux = document.createElement("input");
+                                    aux.setAttribute("value", document.getElementById("dialog-content").innerHTML);
+                                    document.body.appendChild(aux);
+                                    aux.select();
+                                    document.execCommand("copy");
+                                    document.body.removeChild(aux);
+                                    $j(event.target).find(".ui-button-text").text("done!");
+                                    setTimeout(function() {
+                                        $j(event.target).find(".ui-button-text").text("copy");
+                                    }  , 1000 );
+                                }
+                            },
+                            my: "center",
+                            at: "center",
+                            of: window,
+                            close : function(){
+                                $j("#dialog-content").text();
+                            }
+                        });
+
+                        myPainter.onFeatureClick(
+                            function (obj) {
+                                $j("#dialog-content").text(data.querySequence.slice(obj.featureStart-1,obj.featureEnd-1));
+                                $j("#dialog-content").css("word-wrap", "break-word");
+                                $j("#dialog").dialog('open');
+                            }
+                        );
+
                         var viewNum = divObj.attr("viewerNumber");
                         $j("#headerView" + viewNum).html(divObj.attr("seqid"));
 
@@ -173,6 +215,8 @@
 
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
+
+<div id="dialog" title="Amino Acid Sequence of Selected Domain"><p id="dialog-content"></p></div>
 
 </body>
 </html>

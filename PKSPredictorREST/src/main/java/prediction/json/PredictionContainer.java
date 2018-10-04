@@ -8,6 +8,7 @@ public class PredictionContainer{
    	private List<FeaturesArray> featuresArray;
    	private Legend legend;
    	private String segment;
+	private String querySequence;
 
  	public Configuration getConfiguration(){
 		return this.configuration;
@@ -32,5 +33,13 @@ public class PredictionContainer{
 	}
 	public void setSegment(String segment){
 		this.segment = segment;
+	}
+
+	public String getQuerySequence() {
+		return querySequence;
+	}
+
+	public void setQuerySequence(String querySequence) {
+		this.querySequence = querySequence;
 	}
 }

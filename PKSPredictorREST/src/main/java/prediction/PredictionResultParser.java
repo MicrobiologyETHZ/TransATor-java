@@ -1,6 +1,9 @@
 package prediction;
 
 import com.google.common.collect.Streams;
+import net.sf.jfasta.FASTAFileReader;
+import net.sf.jfasta.impl.FASTAElementIterator;
+import net.sf.jfasta.impl.FASTAFileReaderImpl;
 import prediction.json.*;
 import uk.ac.ebi.cheminformatics.pks.parser.FeatureParser;
 import uk.ac.ebi.cheminformatics.pks.parser.FeatureSelection;
@@ -8,8 +11,11 @@ import uk.ac.ebi.cheminformatics.pks.sequence.feature.DomainSeqFeature;
 import uk.ac.ebi.cheminformatics.pks.sequence.feature.KSDomainSeqFeature;
 import uk.ac.ebi.cheminformatics.pks.sequence.feature.SequenceFeature;
 
+import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -49,6 +55,8 @@ public class PredictionResultParser {
 
         predictionContainer.setLegend(getLegend());
         predictionContainer.setSegment(seqID);
+
+        predictionContainer.setQuerySequence(getQueryProteinSequence(path));
     }
 
     private void parseGBK(String path, String seqID) {
@@ -66,6 +74,28 @@ public class PredictionResultParser {
             e.printStackTrace();
         }
 
+    }
+
+    private String getQueryProteinSequence(String path) {
+
+        Path queryFile = Paths.get(path + File.separator + "query.faa");
+
+        try {
+            FASTAFileReader reader = new FASTAFileReaderImpl(queryFile.toFile());
+
+            FASTAElementIterator it = reader.getIterator();
+
+            StringBuilder result = new StringBuilder();
+
+            while (it.hasNext()) {
+                result.append(it.next().getSequence());
+            }
+
+            return result.toString();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Problem while reading in query FASTA file");
+        }
     }
 
     private List<FeaturesArray> getFeaturesArrays(String path, String seqID) {
