@@ -30,11 +30,13 @@
     </build>
 
     <repositories>
+        <!--
         <repository>
             <id>biojava-maven-repo</id>
             <name>BioJava repository</name>
             <url>http://www.biojava.org/download/maven/</url>
         </repository>
+        -->
         <repository>
             <id>maven-restlet</id>
             <name>Public online Restlet repository</name>
