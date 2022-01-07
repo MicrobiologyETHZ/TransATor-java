@@ -1,6 +1,6 @@
 package uk.ac.ebi.cheminformatics.pks.monomer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
@@ -11,7 +11,7 @@ import uk.ac.ebi.cheminformatics.pks.io.StructureLoader;
 
 public class NRPSMonomerProcessor implements MonomerProcessor {
 
-    static final Logger LOGGER = Logger.getLogger(NRPSMonomerProcessor.class);
+    static final Logger LOGGER = LogManager.getLogger(NRPSMonomerProcessor.class);
     String aminoAcid;
 
     public NRPSMonomerProcessor(String aminoAcid) {

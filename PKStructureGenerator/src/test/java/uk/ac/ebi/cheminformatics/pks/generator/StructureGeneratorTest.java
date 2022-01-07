@@ -1,6 +1,6 @@
 package uk.ac.ebi.cheminformatics.pks.generator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.junit.Test;
 import org.openscience.cdk.io.MDLV2000Writer;
 
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 
 public class StructureGeneratorTest {
 
-    private static final Logger LOGGER = Logger.getLogger(PKStructure.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKStructure.class);
 
     @Test
     public void testGetStructure() throws Exception {
