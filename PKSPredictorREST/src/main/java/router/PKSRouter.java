@@ -1,6 +1,6 @@
 package router;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.routing.Router;
@@ -10,7 +10,7 @@ import prediction.PKSStructureSmilesDataRes;
 
 public class PKSRouter extends Application {
 
-    private static final Logger LOGGER = Logger.getLogger(PKSRouter.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKSRouter.class);
 
     /**
      * Creates a root Restlet that will receive all incoming calls.

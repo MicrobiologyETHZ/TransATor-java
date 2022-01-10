@@ -1,6 +1,7 @@
 package uk.ac.ebi.cheminformatics.pks.annotation;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.Logger;
 import runner.RunnerPreferenceField;
 import uk.ac.ebi.cheminformatics.pks.PKSPreferences;
 
@@ -14,7 +15,7 @@ public class CladeAnnotationFactory {
 
     private static CladeAnnotation cladeAnnotation;
     private static final Preferences prefs = Preferences.userNodeForPackage(PKSPreferences.class);
-    private static final Logger LOGGER = Logger.getLogger(CladeAnnotationFactory.class);
+    private static final Logger LOGGER = LogManager.getLogger(CladeAnnotationFactory.class);
 
     public static CladeAnnotation getInstance() {
         if(cladeAnnotation == null) {

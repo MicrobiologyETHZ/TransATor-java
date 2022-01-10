@@ -1,6 +1,6 @@
 package uk.ac.ebi.cheminformatics.pks.monomer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class PKMonomer {
 
-    private static final Logger LOGGER = Logger.getLogger(PKMonomer.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKMonomer.class);
 
     private IAtom preConnectionAtom;
     private IBond preConnectionBond;
