@@ -1,7 +1,7 @@
 package prediction;
 
 import encrypt.Encrypter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.smiles.SmilesGenerator;
 import org.restlet.representation.Representation;
@@ -17,7 +17,7 @@ import java.io.File;
 
 public class PKSStructureSmilesDataRes extends ServerResource {
 
-    private static final Logger LOGGER = Logger.getLogger(PKSStructureSmilesDataRes.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKSStructureSmilesDataRes.class);
 
     @Get("xml")
     public Representation represent() {

@@ -1,6 +1,6 @@
 package uk.ac.ebi.cheminformatics.pks.parser;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import uk.ac.ebi.cheminformatics.pks.sequence.feature.SequenceFeature;
 import uk.ac.ebi.cheminformatics.pks.sequence.feature.SequenceFeatureFactory;
 
@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
  **/
 public final class FeatureParser {
 
-    private static final Logger LOGGER = Logger.getLogger(FeatureParser.class);
+    private static final Logger LOGGER = LogManager.getLogger(FeatureParser.class);
 
     public static List<SequenceFeature> parse(Path featuresFile) {
         try (Stream<String> stream = Files.lines(featuresFile)) {

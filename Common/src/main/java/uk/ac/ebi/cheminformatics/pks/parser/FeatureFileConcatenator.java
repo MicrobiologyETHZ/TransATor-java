@@ -1,6 +1,6 @@
 package uk.ac.ebi.cheminformatics.pks.parser;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FeatureFileConcatenator {
 
-    private static final Logger LOGGER = Logger.getLogger(FeatureFileConcatenator.class);
+    private static final Logger LOGGER = LogManager.getLogger(FeatureFileConcatenator.class);
 
     private Path concatenatedPath;
 
