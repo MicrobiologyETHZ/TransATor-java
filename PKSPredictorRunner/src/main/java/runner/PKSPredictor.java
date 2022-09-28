@@ -1,6 +1,6 @@
 package runner;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import uk.ac.ebi.cheminformatics.pks.PKSPreferences;
 
 import java.io.*;
@@ -11,7 +11,7 @@ import java.util.prefs.Preferences;
 
 public class PKSPredictor implements Runnable {
 
-    private static final Logger LOGGER = Logger.getLogger(PKSPredictor.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKSPredictor.class);
 
     private Preferences prefs;
     private String command;

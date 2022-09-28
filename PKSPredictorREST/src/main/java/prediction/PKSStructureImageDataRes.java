@@ -1,7 +1,7 @@
 package prediction;
 
 import encrypt.Encrypter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.openscience.cdk.exception.CDKException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.FileRepresentation;
@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class PKSStructureImageDataRes extends ServerResource {
 
-    private static final Logger LOGGER = Logger.getLogger(PKSStructureImageDataRes.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKSStructureImageDataRes.class);
 
     @Get("png")
     public Representation represent() {

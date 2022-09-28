@@ -1,7 +1,7 @@
 package uk.ac.ebi.cheminformatics.pks.generator;
 
 import com.google.common.collect.ImmutableSet;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
@@ -25,7 +25,7 @@ import static com.google.common.collect.ImmutableSet.of;
  */
 public class PKSAssembler {
 
-    private static final Logger LOGGER = Logger.getLogger(PKSAssembler.class);
+    private static final Logger LOGGER = LogManager.getLogger(PKSAssembler.class);
 
     private PKStructure structure;
 
