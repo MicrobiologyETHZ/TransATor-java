@@ -92,7 +92,12 @@ public class ValidateInput extends HttpServlet {
         String encrypted = encrypter.encrypt(validator.getOutputPath());
         System.out.println("Encrypted PKSWeb : " + encrypted);
         request.getSession().setAttribute("tmp", URLEncoder.encode(encrypted, "UTF-8"));
-        response.sendRedirect("result.jsp");
+
+        // Redirect to result.jsp with URL‐rewriting fallback
+        String resultUrl = response.encodeRedirectURL(
+                request.getContextPath() + "/result.jsp"
+        );
+        response.sendRedirect(resultUrl);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
